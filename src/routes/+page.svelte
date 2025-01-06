@@ -1,19 +1,83 @@
 <script>
+	import { onMount } from 'svelte';
+	import { supabase } from '../lib/supabaseClient';
+
 	let todos = [];
 	let newTodo = '';
+	let userId = null;
 
-	function addTodo() {
+	onMount(async () => {
+		const {
+			data: { user },
+			error
+		} = await supabase.auth.getUser();
+		if (error || !user) {
+			window.location.href = '/login'; // Redirect to login page if not authenticated
+			return;
+		}
+		userId = user.id;
+		const { data, error: fetchError } = await supabase
+			.from('todos')
+			.select('*')
+			.eq('user_id', userId);
+		if (fetchError) {
+			console.error('Error fetching todos:', fetchError);
+		} else {
+			todos = data;
+		}
+	});
+
+	async function addTodo() {
 		if (newTodo.trim() === '') return;
-		todos = [...todos, { id: Date.now(), text: newTodo, completed: false }];
-		newTodo = '';
+		const response = await supabase
+			.from('todos')
+			.insert([{ text: newTodo, completed: false, user_id: userId }]);
+		console.log('Insert response:', response);
+		const { error } = response;
+		if (error) {
+			console.error('Error adding todo:', error);
+		} else {
+			// Fetch todos again to update the UI
+			const { data, error: fetchError } = await supabase
+				.from('todos')
+				.select('*')
+				.eq('user_id', userId);
+			if (fetchError) {
+				console.error('Error fetching todos:', fetchError);
+			} else {
+				todos = data;
+			}
+			newTodo = '';
+		}
 	}
 
-	function toggleTodo(id) {
-		todos = todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo));
+	async function toggleTodo(id) {
+		const todo = todos.find((todo) => todo.id === id);
+		const response = await supabase
+			.from('todos')
+			.update({ completed: !todo.completed })
+			.eq('id', id)
+			.eq('user_id', userId);
+		console.log('Update response:', response);
+		const { data, error } = response;
+		if (error) {
+			console.error('Error toggling todo:', error);
+		} else {
+			if (Array.isArray(data) && data.length > 0) {
+				todos = todos.map((todo) => (todo.id === id ? data[0] : todo));
+			} else {
+				console.error('Unexpected response format:', data);
+			}
+		}
 	}
 
-	function deleteTodo(id) {
-		todos = todos.filter((todo) => todo.id !== id);
+	async function deleteTodo(id) {
+		const { error } = await supabase.from('todos').delete().eq('id', id).eq('user_id', userId);
+		if (error) {
+			console.error('Error deleting todo:', error);
+		} else {
+			todos = todos.filter((todo) => todo.id !== id);
+		}
 	}
 </script>
 
@@ -60,48 +124,46 @@
 		text-align: center;
 		margin-bottom: 20px;
 	}
+
 	.add-todo {
 		display: flex;
-		gap: 10px;
-		margin-bottom: 15px;
+		justify-content: center;
+		margin-bottom: 20px;
 	}
 
-	input[type='text'] {
-		padding: 10px;
-		border: 1px solid #555;
-		background-color: #444;
-		color: #eee;
-		border-radius: 4px;
+	.add-todo input {
 		flex: 1;
-	}
-	input[type='text']:focus {
-		outline: none;
-		border-color: #888;
+		padding: 10px;
+		border: none;
+		border-radius: 4px;
+		margin-right: 10px;
 	}
 
-	button {
-		padding: 10px 15px;
+	.add-todo button {
+		padding: 10px 20px;
 		border: none;
-		background-color: #555;
-		color: #eee;
 		border-radius: 4px;
+		background-color: #28a745;
+		color: white;
 		cursor: pointer;
-		transition: background-color 0.3s;
 	}
-	button:hover {
-		background-color: #777;
+
+	.add-todo button:hover {
+		background-color: #218838;
 	}
 
 	.todo-list {
 		list-style: none;
 		padding: 0;
 	}
+
 	.todo-list li {
 		display: flex;
 		align-items: center;
 		padding: 10px;
 		border-bottom: 1px solid #444;
 	}
+
 	.todo-list li:last-child {
 		border-bottom: none;
 	}
@@ -113,6 +175,7 @@
 	.todo-list .todo-text {
 		flex: 1;
 	}
+
 	.todo-list li.completed .todo-text {
 		text-decoration: line-through;
 		color: #aaa;
@@ -120,6 +183,11 @@
 
 	.delete-button {
 		background-color: #cc3333;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		padding: 5px 10px;
+		cursor: pointer;
 	}
 
 	.delete-button:hover {
