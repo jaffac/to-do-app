@@ -6,7 +6,7 @@ const config = {
 	preprocess: preprocess(),
 	kit: {
 		adapter: adapter({
-			// adapter options go here
+			fallback: 'index.html' // or another fallback file
 		})
 	}
 };
