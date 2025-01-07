@@ -9,7 +9,7 @@
 		if (error) {
 			errorMessage = error.message;
 		} else {
-			errorMessage = 'Sign-up successful! Please check your email for confirmation.';
+			errorMessage = 'Sign up successful! Please check your email to confirm your account.';
 		}
 	}
 
@@ -56,8 +56,8 @@
 		max-width: 400px;
 		margin: 2rem auto;
 		padding: 2rem;
-		background: #333;
-		color: #eee;
+		background: var(--background-color);
+		color: var(--text-color);
 		border-radius: 8px;
 		text-align: center;
 	}
@@ -66,20 +66,23 @@
 		width: 100%;
 		margin: 1rem 0;
 		padding: 0.5rem;
+		background-color: var(--background-color);
+		color: var(--text-color);
+		border: 1px solid var(--border-color);
 	}
 	button {
 		margin: 0.5rem;
 		padding: 0.5rem 1rem;
-		background-color: #4285f4;
+		background-color: var(--primary-color);
 		color: white;
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
 	}
 	button:hover {
-		background-color: #357ae8;
+		background-color: var(--primary-hover-color);
 	}
 	.error {
-		color: red;
+		color: var(--secondary-color);
 	}
 </style>
