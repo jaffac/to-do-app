@@ -28,8 +28,8 @@
 		max-width: 400px;
 		margin: 2rem auto;
 		padding: 2rem;
-		background: #333;
-		color: #eee;
+		background: var(--background-color);
+		color: var(--text-color);
 		border-radius: 8px;
 		text-align: center;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
