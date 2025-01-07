@@ -1,5 +1,6 @@
 <script>
 	import { supabase } from '../lib/supabaseClient';
+
 	let email = '';
 	let password = '';
 	let errorMessage = '';
