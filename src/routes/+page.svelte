@@ -108,20 +108,9 @@
 </div>
 
 <style>
-	:root {
-		--background-color: #1e1e1e;
-		--text-color: #e0e0e0;
-		--primary-color: #28a745;
-		--primary-hover-color: #218838;
-		--secondary-color: #cc3333;
-		--secondary-hover-color: #aa3333;
-		--border-color: #444;
-		--completed-text-color: #aaa;
-	}
-
 	.app {
 		font-family: sans-serif;
-		background-color: var(--background-color);
+		background-color: var(--app-background-color);
 		color: var(--text-color);
 		padding: 20px;
 		border-radius: 8px;
@@ -147,7 +136,7 @@
 		border: none;
 		border-radius: 4px;
 		margin-right: 10px;
-		background-color: var(--background-color);
+		background-color: var(--app-background-color);
 		color: var(--text-color);
 		border: 1px solid var(--border-color);
 	}
