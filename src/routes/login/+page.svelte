@@ -19,7 +19,7 @@
 
 <div class="auth-container">
 	<img src="/pencil.png" alt="Pencil" class="pencil-image" />
-	<h1>Welcome to ToDoApp</h1>
+	<h1>ToDoApp</h1>
 	<button on:click={signInWithGoogle}>Sign in with Google</button>
 </div>
 

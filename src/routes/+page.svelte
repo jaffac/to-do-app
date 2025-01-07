@@ -81,7 +81,7 @@
 </script>
 
 <div class="app">
-	<h1>Welcome to My List</h1>
+	<h1>My List</h1>
 	<div class="add-todo">
 		<input
 			type="text"
