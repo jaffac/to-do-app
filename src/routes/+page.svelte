@@ -59,15 +59,14 @@
 			.eq('id', id)
 			.eq('user_id', userId);
 		console.log('Update response:', response);
-		const { data, error } = response;
+		const { error } = response;
 		if (error) {
 			console.error('Error toggling todo:', error);
 		} else {
-			if (Array.isArray(data) && data.length > 0) {
-				todos = todos.map((todo) => (todo.id === id ? data[0] : todo));
-			} else {
-				console.error('Unexpected response format:', data);
-			}
+			// Update the local state directly
+			todos = todos.map((todo) =>
+				todo.id === id ? { ...todo, completed: !todo.completed } : todo
+			);
 		}
 	}
 
