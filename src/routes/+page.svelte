@@ -108,10 +108,21 @@
 </div>
 
 <style>
+	:root {
+		--background-color: #1e1e1e;
+		--text-color: #e0e0e0;
+		--primary-color: #28a745;
+		--primary-hover-color: #218838;
+		--secondary-color: #cc3333;
+		--secondary-hover-color: #aa3333;
+		--border-color: #444;
+		--completed-text-color: #aaa;
+	}
+
 	.app {
 		font-family: sans-serif;
-		background-color: #333;
-		color: #eee;
+		background-color: var(--background-color);
+		color: var(--text-color);
 		padding: 20px;
 		border-radius: 8px;
 		width: 90%;
@@ -136,19 +147,22 @@
 		border: none;
 		border-radius: 4px;
 		margin-right: 10px;
+		background-color: var(--background-color);
+		color: var(--text-color);
+		border: 1px solid var(--border-color);
 	}
 
 	.add-todo button {
 		padding: 10px 20px;
 		border: none;
 		border-radius: 4px;
-		background-color: #28a745;
-		color: white;
+		background-color: var(--primary-color);
+		color: var(--text-color);
 		cursor: pointer;
 	}
 
 	.add-todo button:hover {
-		background-color: #218838;
+		background-color: var(--primary-hover-color);
 	}
 
 	.todo-list {
@@ -160,7 +174,7 @@
 		display: flex;
 		align-items: center;
 		padding: 10px;
-		border-bottom: 1px solid #444;
+		border-bottom: 1px solid var(--border-color);
 	}
 
 	.todo-list li:last-child {
@@ -177,12 +191,12 @@
 
 	.todo-list li.completed .todo-text {
 		text-decoration: line-through;
-		color: #aaa;
+		color: var(--completed-text-color);
 	}
 
 	.delete-button {
-		background-color: #cc3333;
-		color: white;
+		background-color: var(--secondary-color);
+		color: var(--text-color);
 		border: none;
 		border-radius: 4px;
 		padding: 5px 10px;
@@ -190,6 +204,6 @@
 	}
 
 	.delete-button:hover {
-		background-color: #aa3333;
+		background-color: var(--secondary-hover-color);
 	}
 </style>
